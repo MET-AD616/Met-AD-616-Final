@@ -2,6 +2,8 @@
 library(ggplot2)
 library(ggridges)
 library(tidyr)
+library(dplyr)
+library(tidyverse)
 
 ##Peak hours, RG final stop
 Peak <- read.csv("PeakData.csv", header = T)
@@ -82,6 +84,33 @@ for (i in 1:441) {
 PS_1 <- matrix(data = PeakSim, nrow = 21, ncol = 21)
 PS_1[upper.tri(PS_1, diag = F)]
 
+
+##data transform
+x <- cumsum(rowSums(Peak_RG, na.rm = TRUE))
+y <- cumsum(colSums(Peak_RG, na.rm = TRUE))
+df <- data.frame(x, y) %>% mutate(z = x- y)
+
+p_1 <- c(rep(df$z,200))
+PeakSim <- c(rep(0,4200))
+
+for (i in 1:4200) {
+  PeakSim[i] <- rnorm(1, mean = p_1[i], sd = p_1[i]/5)
+}
+
+PS_df <- data.frame(matrix(data =PeakSim, ncol = 200, nrow = 21))
+#View(PS_df)
+
+PS_df_one <- data.frame(sim = 1:200, stop1 = t(PS_df[1,]/4))
+rownames(PS_df_one) <- NULL
+p_stop1 <- ggplot(data = PS_df_one, aes(x = sim, y = X1)) +
+  geom_point()
+p_stop1 + labs(y = "Number of Passenger / Hour", x = "Sim Trials") +
+  ggtitle("Sum of passengers on the bus at 1st Stop (sim 200 times)")
+
+PS_df_one <- data.frame(sim = 1:200, stop1 = t(PS_df[1,]/4))
+rownames(PS_df_one) <- NULL
+p_stop2 <- ggplot(data = PS_df_one, aes(x = sim)) +
+  geom_histogram(binwidth = 20, alpha = 0.9)
 
 
 
