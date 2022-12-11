@@ -71,34 +71,36 @@ NonPeak_1 <- NonPeak[-1,]
 View(NonPeak_1)
 
 
-##coding
+##data simulation
 
-p_1 <- unlist(as.list(t(Peak_1)))
-p_1
-
-PeakSim <- c(rep(0,441))
-for (i in 1:441) {
-  PeakSim[i] <- mean(rnorm(10000, mean = p_1[i], sd = p_1[i]/5))
+Peak_RG_SIM <- array(dim=c(21,21,200))
+for (i in 1:21){
+  for(j in 1:21){
+    Peak_RG_SIM [j,i,] <- rnorm(n=200, mean=Peak_RG[j,i,], sd=Peak_RG[j,i,]/5) %>% round()
+  }
 }
 
-PS_1 <- matrix(data = PeakSim, nrow = 21, ncol = 21)
-PS_1[upper.tri(PS_1, diag = F)]
+
+Peak_RG_SIM2 <- array(dim=c(21,3,200))
+x1<-array(dim=c(1,21,200))
+y1<-array(dim=c(1,21,200))
+z1<-array(dim=c(1,21,200))
+for (i in 1:200){
+  x1[,,i]<-cumsum(rowSums(Peak_RG_SIM[,,i],na.rm = TRUE))
+  y1[,,i]<-cumsum(colSums(Peak_RG_SIM[,,i],na.rm = TRUE))  
+  z1 <- x1-y1
+  Peak_RG_SIM2[,,i]<- as.matrix(cbind(x1[,,i],y1[,,i],z1[,,i]))
+}
+#View(z1)
+#View(Peak_RG_SIM2)
+
 
 
 ##data transform
-x <- cumsum(rowSums(Peak_RG, na.rm = TRUE))
-y <- cumsum(colSums(Peak_RG, na.rm = TRUE))
-df <- data.frame(x, y) %>% mutate(z = x- y)
+df_z1 <- t(data.frame(matrix(z1, nrow=200, byrow = T))/20) %>% round()
+View(df_z1)
 
-p_1 <- c(rep(df$z,200))
-PeakSim <- c(rep(0,4200))
-
-for (i in 1:4200) {
-  PeakSim[i] <- rnorm(1, mean = p_1[i], sd = p_1[i]/5)
-}
-
-PS_df <- data.frame(matrix(data =PeakSim, ncol = 200, nrow = 21))
-#View(PS_df)
+## Risk profile
 
 PS_df_one <- data.frame(sim = 1:200, stop1 = t(PS_df[1,]/4))
 rownames(PS_df_one) <- NULL
@@ -107,10 +109,32 @@ p_stop1 <- ggplot(data = PS_df_one, aes(x = sim, y = X1)) +
 p_stop1 + labs(y = "Number of Passenger / Hour", x = "Sim Trials") +
   ggtitle("Sum of passengers on the bus at 1st Stop (sim 200 times)")
 
-PS_df_one <- data.frame(sim = 1:200, stop1 = t(PS_df[1,]/4))
-rownames(PS_df_one) <- NULL
-p_stop2 <- ggplot(data = PS_df_one, aes(x = sim)) +
-  geom_histogram(binwidth = 20, alpha = 0.9)
+#for the first stop
+PS_df_one <- data.frame(sim = 1:200, stop1 = df_z1[1,])
+stop_1 <- ggplot(data = PS_df_one, aes(x = sim)) +
+  geom_density()
+
+#for the second stop
+PS_df_two <- data.frame(sim = 1:200, stop1 = df_z1[2,])
+stop_2 <- ggplot(data = PS_df_two, aes(x = sim)) +
+  geom_density()
+
+#for the tenth stop
+PS_df_ten <- data.frame(sim = 1:200, stop1 = df_z1[10,])
+stop_10 <- ggplot(data = PS_df_ten, aes(x = sim)) +
+  geom_histogram()
+
+#for the nth stop
+PS_df_17 <- data.frame(sim = 1:200, stop1 = df_z1[17,])
+stop_17 <- ggplot(data = PS_df_17, aes(x = sim)) +
+  geom_histogram()
+
+
+
+
+
+
+
 
 
 
