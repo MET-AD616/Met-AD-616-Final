@@ -31,7 +31,31 @@ for (i in 1:200){
 }
 z1
 Peak_RG_SIM2
+Peak_my_data <- as.data.frame.table(z1)
+#add risk profile
+library(tidyr)
+d1 <- pivot_wider(data = Peak_my_data, names_from = "Var2", values_from = "Freq")
+d1 <- d1[-c(1,2)]
+d1_final <- t(d1)
+d1_final <- d1_final / 20
 
+hplot <- function(x){
+  ggplot()+geom_histogram(aes(x=x,y=..count../sum(..count..)),
+                          color="dark blue", fill="blue", binwidth = 0.8)+
+    geom_vline(xintercept = 51, linetype="dotted", color = "gray", size=1.5)+
+    theme_bw() + ylab("probability")+
+    scale_x_continuous(labels = scales::comma)
+}
+
+library(cowplot)
+p1<-hplot(d1_final[1,]) + xlab("Rajiv.Gandhi")
+p2<-hplot(d1_final[2,]) + xlab("Mata.Gujri")
+p5<-hplot(d1_final[5,]) + xlab("Holkar.Subway")
+p6<-hplot(d1_final[6,]) + xlab("Navlakha.Square")
+p7<-hplot(d1_final[7,]) + xlab("Indra.Pratima")
+p9<-hplot(d1_final[9,]) + xlab("Shivaji.Vatika")
+
+plot_grid(p1,p2,p5,p6,p7,p9)
 
 ## upper.tri
 Peak_RG2 <- Peak_1 
