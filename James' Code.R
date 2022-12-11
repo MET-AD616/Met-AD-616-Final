@@ -150,13 +150,27 @@ RP_James <- function(x, n){
 
 par(mfrow=c(2,3))
 RP_James(df_z1[1,], 20) + title(main = "Stop 1")
+RP_James(df_z1[2,], 20) + title(main = "Stop 2")
+RP_James(df_z1[3,], 20) + title(main = "Stop 3")
+RP_James(df_z1[4,], 20) + title(main = "Stop 4")
+RP_James(df_z1[5,], 20) + title(main = "Stop 5")
+RP_James(df_z1[6,], 20) + title(main = "Stop 6")
 
+par(mfrow=c(2,3))
+RP_James(df_z1[7,], 20) + title(main = "Stop 7")
+RP_James(df_z1[8,], 20) + title(main = "Stop 8")
+RP_James(df_z1[9,], 20) + title(main = "Stop 9")
+RP_James(df_z1[10,], 20) + title(main = "Stop 10")
+RP_James(df_z1[11,], 20) + title(main = "Stop 11")
+RP_James(df_z1[12,], 20) + title(main = "Stop 12")
 
-
-
-
-
-
+par(mfrow=c(2,3))
+RP_James(df_z1[13,], 20) + title(main = "Stop 13")
+RP_James(df_z1[14,], 20) + title(main = "Stop 14")
+RP_James(df_z1[15,], 20) + title(main = "Stop 15")
+RP_James(df_z1[16,], 20) + title(main = "Stop 16")
+RP_James(df_z1[17,], 20) + title(main = "Stop 17")
+RP_James(df_z1[18,], 20) + title(main = "Stop 18")
 
 
 
