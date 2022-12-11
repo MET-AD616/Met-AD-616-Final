@@ -72,7 +72,6 @@ View(NonPeak_1)
 
 
 ##data simulation
-
 Peak_RG_SIM <- array(dim=c(21,21,200))
 for (i in 1:21){
   for(j in 1:21){
@@ -102,36 +101,8 @@ df_z1 <- t(data.frame(matrix(z1, nrow=200, byrow = T))) %>% round()
 View(df_z1)
 
 ## Risk profile
-max(df_z1)
 
-
-#for the nth stop
-PS_df_17 <- data.frame(sim = 1:200, stop1 = df_z1[17,])
-stop_17 <- ggplot(data = PS_df_17, aes(x = stop1)) +
-  geom_histogram()
-#stop_17 + labs(y = "Count", x = "# of passenger at stop 17") +
-  ggtitle("Sum of passengers on the bus at 17th Stop (sim 200 times)")
-
-#probability histogram code from internet
-probabilityplot<-function(x, ..., prob=T, ylab="Probability") {
-  xx<-hist(x, yaxt="n", prob=prob, ylab=ylab , ...)
-  bin.sizes<-diff(xx$breaks)
-  if (any(bin.sizes != bin.sizes[1])) stop("bin sizes are not the same")
-  marks<-axTicks(2)
-  axis(2, at=marks, labels=marks*bin.sizes[1])
-  xx$probabilities <- xx$density*bin.sizes[1]
-  invisible(xx)
-}
-
-#probabilityplot(df_z1[14,])
-
-#risk profile by James
-
-S_14 <- hist(df_z1[14,], breaks = 20, plot = F)
-S_14$counts = S_14$counts/sum(S_14$counts)
-plot(S_14, xlim = c(40, 150), xlab = "# of Passenger", 
-     ylab = "Probability", main = "Risk Profile for Stop 14")
-abline(v=51, col = "red", lty = 2)
+##risk profile by James
 
 #the great function of risk profile
 RP_James <- function(x, n){
