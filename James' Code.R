@@ -145,13 +145,8 @@ for (i in 1:200){
 z3
 
 
-
-## upper.tri
 upNonPeak_RG <- NonPeak_1 
 upNonPeak_RG[upper.tri(NonPeak_1)] <- 0
-#Reverses the column and row order of the matrix
-upNonPeak_RG <- upNonPeak_RG[, rev(seq_len(ncol(upNonPeak_RG)))]
-upNonPeak_RG <- upNonPeak_RG[rev(seq_len(nrow(upNonPeak_RG))), ]
 
 upNonPeak_RG_SIM <- array(dim=c(21,21,200))
 for (i in 1:21){
@@ -159,6 +154,7 @@ for (i in 1:21){
     upNonPeak_RG_SIM [j,i,] <- rnorm(n=200, mean=upNonPeak_RG[j,i,], sd=upNonPeak_RG[j,i,]/5) %>% round()
   }
 }
+
 
 upNonPeak_RG_SIM2 <- array(dim=c(21,3,200))
 x4<-array(dim=c(1,21,200))
@@ -204,31 +200,20 @@ RP_James <- function(x, n){
 }
 #RP_James(df_z1[1,], 30)
 
-par(mfrow=c(2,3))
+# for peak hour 1st trip
+par(mfrow=c(3,3))
 RP_James(df_z1[1,], 20) + title(main = "Stop 1")
 RP_James(df_z1[2,], 20) + title(main = "Stop 2")
 RP_James(df_z1[3,], 20) + title(main = "Stop 3")
-RP_James(df_z1[4,], 20) + title(main = "Stop 4")
-RP_James(df_z1[5,], 20) + title(main = "Stop 5")
-RP_James(df_z1[6,], 20) + title(main = "Stop 6")
-
-par(mfrow=c(2,3))
-RP_James(df_z1[7,], 20) + title(main = "Stop 7")
 RP_James(df_z1[8,], 20) + title(main = "Stop 8")
 RP_James(df_z1[9,], 20) + title(main = "Stop 9")
 RP_James(df_z1[10,], 20) + title(main = "Stop 10")
-RP_James(df_z1[11,], 20) + title(main = "Stop 11")
-RP_James(df_z1[12,], 20) + title(main = "Stop 12")
-
-par(mfrow=c(2,3))
-RP_James(df_z1[13,], 20) + title(main = "Stop 13")
-RP_James(df_z1[14,], 20) + title(main = "Stop 14")
-RP_James(df_z1[15,], 20) + title(main = "Stop 15")
-RP_James(df_z1[16,], 20) + title(main = "Stop 16")
 RP_James(df_z1[17,], 20) + title(main = "Stop 17")
 RP_James(df_z1[18,], 20) + title(main = "Stop 18")
+RP_James(df_z1[19,], 20) + title(main = "Stop 19")
+mtext("Peak Hour 1st Trip", side = 3, line = -1.5, outer = T)
 
-# for peak hour round trip
+# for peak hour 2nd trip
 par(mfrow=c(3,3))
 RP_James(df_z2[1,], 20) + title(main = "Stop 1")
 RP_James(df_z2[2,], 20) + title(main = "Stop 2")
@@ -239,7 +224,7 @@ RP_James(df_z2[10,], 20) + title(main = "Stop 10")
 RP_James(df_z2[17,], 20) + title(main = "Stop 17")
 RP_James(df_z2[18,], 20) + title(main = "Stop 18")
 RP_James(df_z2[19,], 20) + title(main = "Stop 19")
-mtext("Peak Hour Other Trip", side = 3, line = -1, outer = T)
+mtext("Peak Hour 2nd Trip", side = 3, line = -1.5, outer = T)
 
 # for non peak hour one-way trip
 par(mfrow=c(3,3))
