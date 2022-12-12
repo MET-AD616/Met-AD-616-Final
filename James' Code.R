@@ -93,12 +93,97 @@ for (i in 1:200){
 #View(z1)
 #View(Peak_RG_SIM2)
 
+Peak_RG2 <- Peak_1 
+Peak_RG2[upper.tri(Peak_1)] <- 0 
+#Reverses the column and row order of the matrix
+Peak_RG2 <- Peak_RG2[, rev(seq_len(ncol(Peak_RG2)))]
+Peak_RG2 <- Peak_RG2[rev(seq_len(nrow(Peak_RG2))), ]
+
+upPeak_RG_SIM <- array(dim=c(21,21,200))
+for (i in 1:21){
+  for(j in 1:21){
+    upPeak_RG_SIM [j,i,] <- rnorm(n=200, mean=Peak_RG2[j,i,], sd=Peak_RG2[j,i,]/5) %>% round()
+  }
+}
+
+
+upPeak_RG_SIM2 <- array(dim=c(21,3,200))
+x2<-array(dim=c(1,21,200))
+y2<-array(dim=c(1,21,200))
+z2<-array(dim=c(1,21,200))
+for (i in 1:200){
+  x2[,,i]<-cumsum(rowSums(upPeak_RG_SIM[,,i],na.rm = TRUE))
+  y2[,,i]<-cumsum(colSums(upPeak_RG_SIM[,,i],na.rm = TRUE))  
+  z2 <- x2-y2
+  upPeak_RG_SIM2[,,i]<- as.matrix(cbind(x2[,,i],y2[,,i],z2[,,i]))
+}
+z2
+
+
+NonPeak <- read.csv("NonPeakData.csv", header = T)
+NonPeak_1 <- NonPeak[-1,-1]
+NonPeak_RG <- NonPeak_1 
+NonPeak_RG[lower.tri(NonPeak_1)] <- 0
+
+NonPeak_RG_SIM <- array(dim=c(21,21,200))
+for (i in 1:21){
+  for(j in 1:21){
+    NonPeak_RG_SIM [j,i,] <- rnorm(n=200, mean=NonPeak_RG[j,i,], sd=NonPeak_RG[j,i,]/5) %>% round()
+  }
+}
+
+NonPeak_RG_SIM2 <- array(dim=c(21,3,200))
+x3<-array(dim=c(1,21,200))
+y3<-array(dim=c(1,21,200))
+z3<-array(dim=c(1,21,200))
+for (i in 1:200){
+  x3[,,i]<-cumsum(rowSums(NonPeak_RG_SIM[,,i],na.rm = TRUE))
+  y3[,,i]<-cumsum(colSums(NonPeak_RG_SIM[,,i],na.rm = TRUE))  
+  z3 <- x3-y3
+  NonPeak_RG_SIM2[,,i]<- as.matrix(cbind(x3[,,i],y3[,,i],z3[,,i]))
+}
+z3
+
+
+
+## upper.tri
+upNonPeak_RG <- NonPeak_1 
+upNonPeak_RG[upper.tri(NonPeak_1)] <- 0
+#Reverses the column and row order of the matrix
+upNonPeak_RG <- upNonPeak_RG[, rev(seq_len(ncol(upNonPeak_RG)))]
+upNonPeak_RG <- upNonPeak_RG[rev(seq_len(nrow(upNonPeak_RG))), ]
+
+upNonPeak_RG_SIM <- array(dim=c(21,21,200))
+for (i in 1:21){
+  for(j in 1:21){
+    upNonPeak_RG_SIM [j,i,] <- rnorm(n=200, mean=upNonPeak_RG[j,i,], sd=upNonPeak_RG[j,i,]/5) %>% round()
+  }
+}
+
+upNonPeak_RG_SIM2 <- array(dim=c(21,3,200))
+x4<-array(dim=c(1,21,200))
+y4<-array(dim=c(1,21,200))
+z4<-array(dim=c(1,21,200))
+for (i in 1:200){
+  x4[,,i]<-cumsum(rowSums(upNonPeak_RG_SIM[,,i],na.rm = TRUE))
+  y4[,,i]<-cumsum(colSums(upNonPeak_RG_SIM[,,i],na.rm = TRUE))  
+  z4 <- y4-x4
+  upNonPeak_RG_SIM2[,,i]<- as.matrix(cbind(x4[,,i],y4[,,i],z4[,,i]))
+}
+z4
+
+
 ### simulation by James
 #View(Peak_RG)
 
 ##data transform
 df_z1 <- t(data.frame(matrix(z1, nrow=200, byrow = T))) %>% round()
-View(df_z1)
+
+df_z2 <- t(data.frame(matrix(z2, nrow=200, byrow = T))) %>% round()
+
+df_z3 <- t(data.frame(matrix(z3, nrow=200, byrow = T))) %>% round()
+
+df_z4 <- t(data.frame(matrix(z4, nrow=200, byrow = T))) %>% round()
 
 ## Risk profile
 
@@ -143,6 +228,44 @@ RP_James(df_z1[16,], 20) + title(main = "Stop 16")
 RP_James(df_z1[17,], 20) + title(main = "Stop 17")
 RP_James(df_z1[18,], 20) + title(main = "Stop 18")
 
+# for peak hour round trip
+par(mfrow=c(3,3))
+RP_James(df_z2[1,], 20) + title(main = "Stop 1")
+RP_James(df_z2[2,], 20) + title(main = "Stop 2")
+RP_James(df_z2[3,], 20) + title(main = "Stop 3")
+RP_James(df_z2[8,], 20) + title(main = "Stop 8")
+RP_James(df_z2[9,], 20) + title(main = "Stop 9")
+RP_James(df_z2[10,], 20) + title(main = "Stop 10")
+RP_James(df_z2[17,], 20) + title(main = "Stop 17")
+RP_James(df_z2[18,], 20) + title(main = "Stop 18")
+RP_James(df_z2[19,], 20) + title(main = "Stop 19")
+mtext("Peak Hour Other Trip", side = 3, line = -1, outer = T)
+
+# for non peak hour one-way trip
+par(mfrow=c(3,3))
+RP_James(df_z3[1,], 20) + title(main = "Stop 1")
+RP_James(df_z3[2,], 20) + title(main = "Stop 2")
+RP_James(df_z3[3,], 20) + title(main = "Stop 3")
+RP_James(df_z3[8,], 20) + title(main = "Stop 8")
+RP_James(df_z3[9,], 20) + title(main = "Stop 9")
+RP_James(df_z3[10,], 20) + title(main = "Stop 10")
+RP_James(df_z3[17,], 20) + title(main = "Stop 17")
+RP_James(df_z3[18,], 20) + title(main = "Stop 18")
+RP_James(df_z3[19,], 20) + title(main = "Stop 19")
+mtext("Non Peak Hour 1st Trip", side = 3, line = -1.5, outer = T)
+
+# for non peak hour round trip
+par(mfrow=c(3,3))
+RP_James(df_z4[1,], 20) + title(main = "Stop 1")
+RP_James(df_z4[2,], 20) + title(main = "Stop 2")
+RP_James(df_z4[3,], 20) + title(main = "Stop 3")
+RP_James(df_z4[8,], 20) + title(main = "Stop 8")
+RP_James(df_z4[9,], 20) + title(main = "Stop 9")
+RP_James(df_z4[10,], 20) + title(main = "Stop 10")
+RP_James(df_z4[17,], 20) + title(main = "Stop 17")
+RP_James(df_z4[18,], 20) + title(main = "Stop 18")
+RP_James(df_z4[19,], 20) + title(main = "Stop 19")
+mtext("Non Peak Hour 2nd Trip", side = 3, line = -1.5, outer = T)
 
 
 
