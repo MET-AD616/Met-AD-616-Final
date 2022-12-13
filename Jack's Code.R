@@ -1,8 +1,6 @@
 
-#Boyu's simulation code with minor change
+
 library(tidyverse)
-
-
 
 
 ###############################################################
