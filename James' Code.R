@@ -200,6 +200,17 @@ RP_James <- function(x, n){
 }
 #RP_James(df_z1[1,], 30)
 
+RP_adjust_James <- function(x, n){
+  a <- x/n
+  S <- hist(a, breaks = 20, plot = F)
+  S$counts = S$counts/sum(S$counts)
+  plot(S, xlim = c(min(x)-5, max(x)+5), xlab = "# of Passenger per Bus", 
+       ylab = "Probability", main = NULL)
+  abline(v=51, col = "red", lty = 2)
+}
+
+RP_adjust_James(df_z1[1,], 30)
+
 # for peak hour 1st trip
 par(mfrow=c(3,3))
 RP_James(df_z1[1,], 20) + title(main = "Stop 1")
