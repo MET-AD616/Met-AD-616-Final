@@ -202,74 +202,74 @@ RP_James <- function(x, n){
 
 RP_adjust_James <- function(x, n){
   a <- x/n
-  hist_breaks <- hist(a)$breaks
+  hist_breaks <- hist(a, plot = F)$breaks
   color_list <- rep('red', length(hist_breaks))
   color_list[hist_breaks < 65] <- 'yellow'
   color_list[hist_breaks < 51] <- 'blue'
   color_list[hist_breaks < 36] <- 'green'
   S <- hist(a, plot = F)
   S$counts = S$counts/sum(S$counts)
-  plot(S, col = color_list, xlim = c(min(a)-5, max(a)+5), xlab = "# of Passenger per Bus", 
+  plot(S, col = color_list, xlim = c(min(a)-3, max(a)+3), xlab = "# of Passenger per Bus", 
        ylab = "Probability", main = NULL)
 }
 
 #RP_adjust_James(df_z1[1,], 30)
-par(mfrow=c(3,1))
-RP_adjust_James(df_z1[2,], 30) + title(main = "Stop 12")
-RP_adjust_James(df_z1[16,], 30) + title(main = "Stop 16")
-RP_adjust_James(df_z1[17,], 30) + title(main = "Stop 17")
+par(mfrow=c(1,3))
+RP_adjust_James(df_z1[2,], 30) + title(main = "Stop 2: Mata Gujri")
+RP_adjust_James(df_z1[3,], 30) + title(main = "Stop 3")
+RP_adjust_James(df_z1[4,], 30) + title(main = "Stop 4")
 mtext("Peak Hour 1st Trip", side = 3, line = -1.5, outer = T)
 
 # for peak hour 1st trip
 par(mfrow=c(3,3))
-RP_James(df_z1[1,], 20) + title(main = "Stop 1")
-RP_James(df_z1[2,], 20) + title(main = "Stop 2")
-RP_James(df_z1[3,], 20) + title(main = "Stop 3")
-RP_James(df_z1[8,], 20) + title(main = "Stop 8")
-RP_James(df_z1[9,], 20) + title(main = "Stop 9")
-RP_James(df_z1[10,], 20) + title(main = "Stop 10")
-RP_James(df_z1[17,], 20) + title(main = "Stop 17")
-RP_James(df_z1[18,], 20) + title(main = "Stop 18")
-RP_James(df_z1[19,], 20) + title(main = "Stop 19")
+RP_adjust_James(df_z1[1,], 30) + title(main = "Stop 1: Rajiv Gandhi")
+RP_adjust_James(df_z1[2,], 30) + title(main = "Stop 2: Mata Gujri")
+RP_adjust_James(df_z1[3,], 30) + title(main = "Stop 3: Vishnupuri")
+RP_adjust_James(df_z1[8,], 30) + title(main = "Stop 8: GPO")
+RP_adjust_James(df_z1[9,], 30) + title(main = "Stop 9: Shivaji Vatika")
+RP_adjust_James(df_z1[10,], 30) + title(main = "Stop 10: AICTSL")
+RP_adjust_James(df_z1[16,], 30) + title(main = "Stop 16: MR-9")
+RP_adjust_James(df_z1[17,], 30) + title(main = "Stop 17: Vijay Nagar")
+RP_adjust_James(df_z1[18,], 30) + title(main = "Stop 18: Satya Sai")
 mtext("Peak Hour 1st Trip", side = 3, line = -1.5, outer = T)
 
 # for peak hour 2nd trip
 par(mfrow=c(3,3))
-RP_James(df_z2[1,], 20) + title(main = "Stop 1")
-RP_James(df_z2[2,], 20) + title(main = "Stop 2")
-RP_James(df_z2[3,], 20) + title(main = "Stop 3")
-RP_James(df_z2[8,], 20) + title(main = "Stop 8")
-RP_James(df_z2[9,], 20) + title(main = "Stop 9")
-RP_James(df_z2[10,], 20) + title(main = "Stop 10")
-RP_James(df_z2[17,], 20) + title(main = "Stop 17")
-RP_James(df_z2[18,], 20) + title(main = "Stop 18")
-RP_James(df_z2[19,], 20) + title(main = "Stop 19")
+RP_adjust_James(df_z2[1,], 30) + title(main = "Stop 1: Rajiv Gandhi")
+RP_adjust_James(df_z2[2,], 30) + title(main = "Stop 2: Mata Gujri")
+RP_adjust_James(df_z2[3,], 30) + title(main = "Stop 3: Vishnupuri")
+RP_adjust_James(df_z2[8,], 30) + title(main = "Stop 8: GPO")
+RP_adjust_James(df_z2[9,], 30) + title(main = "Stop 9: Shivaji Vatika")
+RP_adjust_James(df_z2[10,], 30) + title(main = "Stop 10: AICTSL")
+RP_adjust_James(df_z2[16,], 30) + title(main = "Stop 16: MR-9")
+RP_adjust_James(df_z2[17,], 30) + title(main = "Stop 17: Vijay Nagar")
+RP_adjust_James(df_z2[18,], 30) + title(main = "Stop 18: Satya Sai")
 mtext("Peak Hour 2nd Trip", side = 3, line = -1.5, outer = T)
 
 # for non peak hour one-way trip
 par(mfrow=c(3,3))
-RP_James(df_z3[1,], 20) + title(main = "Stop 1")
-RP_James(df_z3[2,], 20) + title(main = "Stop 2")
-RP_James(df_z3[3,], 20) + title(main = "Stop 3")
-RP_James(df_z3[8,], 20) + title(main = "Stop 8")
-RP_James(df_z3[9,], 20) + title(main = "Stop 9")
-RP_James(df_z3[10,], 20) + title(main = "Stop 10")
-RP_James(df_z3[17,], 20) + title(main = "Stop 17")
-RP_James(df_z3[18,], 20) + title(main = "Stop 18")
-RP_James(df_z3[19,], 20) + title(main = "Stop 19")
+RP_adjust_James(df_z3[4,], 20) + title(main = "Stop 4: Bhanwarkuan Square")
+RP_adjust_James(df_z3[5,], 20) + title(main = "Stop 5: Holkar Subway")
+RP_adjust_James(df_z3[6,], 20) + title(main = "Stop 6: Navlakha Square")
+RP_adjust_James(df_z3[11,], 20) + title(main = "Stop 11: Geeta Bhawan")
+RP_adjust_James(df_z3[12,], 20) + title(main = "Stop 12: Palasiya")
+RP_adjust_James(df_z3[13,], 20) + title(main = "Stop 13: Industry House")
+RP_adjust_James(df_z3[15,], 20) + title(main = "Stop 15: Press Complex")
+RP_adjust_James(df_z3[16,], 20) + title(main = "Stop 16: MR-9")
+RP_adjust_James(df_z3[17,], 20) + title(main = "Stop 17:Vijay Nagar")
 mtext("Non Peak Hour 1st Trip", side = 3, line = -1.5, outer = T)
 
 # for non peak hour round trip
 par(mfrow=c(3,3))
-RP_James(df_z4[1,], 20) + title(main = "Stop 1")
-RP_James(df_z4[2,], 20) + title(main = "Stop 2")
-RP_James(df_z4[3,], 20) + title(main = "Stop 3")
-RP_James(df_z4[8,], 20) + title(main = "Stop 8")
-RP_James(df_z4[9,], 20) + title(main = "Stop 9")
-RP_James(df_z4[10,], 20) + title(main = "Stop 10")
-RP_James(df_z4[17,], 20) + title(main = "Stop 17")
-RP_James(df_z4[18,], 20) + title(main = "Stop 18")
-RP_James(df_z4[19,], 20) + title(main = "Stop 19")
+RP_adjust_James(df_z4[4,], 20) + title(main = "Stop 4: Bhanwarkuan Square")
+RP_adjust_James(df_z4[5,], 20) + title(main = "Stop 5: Holkar Subway")
+RP_adjust_James(df_z4[6,], 20) + title(main = "Stop 6: Navlakha Square")
+RP_adjust_James(df_z4[11,], 20) + title(main = "Stop 11: Geeta Bhawan")
+RP_adjust_James(df_z4[12,], 20) + title(main = "Stop 12: Palasiya")
+RP_adjust_James(df_z4[13,], 20) + title(main = "Stop 13: Industry House")
+RP_adjust_James(df_z4[15,], 20) + title(main = "Stop 15: Press Complex")
+RP_adjust_James(df_z4[16,], 20) + title(main = "Stop 16: MR-9")
+RP_adjust_James(df_z4[17,], 20) + title(main = "Stop 17:Vijay Nagar")
 mtext("Non Peak Hour 2nd Trip", side = 3, line = -1.5, outer = T)
 
 
