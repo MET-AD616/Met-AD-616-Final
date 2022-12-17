@@ -202,14 +202,23 @@ RP_James <- function(x, n){
 
 RP_adjust_James <- function(x, n){
   a <- x/n
-  S <- hist(a, breaks = 20, plot = F)
+  hist_breaks <- hist(a)$breaks
+  color_list <- rep('red', length(hist_breaks))
+  color_list[hist_breaks < 65] <- 'yellow'
+  color_list[hist_breaks < 51] <- 'blue'
+  color_list[hist_breaks < 36] <- 'green'
+  S <- hist(a, plot = F)
   S$counts = S$counts/sum(S$counts)
-  plot(S, xlim = c(min(x)-5, max(x)+5), xlab = "# of Passenger per Bus", 
+  plot(S, col = color_list, xlim = c(min(a)-5, max(a)+5), xlab = "# of Passenger per Bus", 
        ylab = "Probability", main = NULL)
-  abline(v=51, col = "red", lty = 2)
 }
 
-RP_adjust_James(df_z1[1,], 30)
+#RP_adjust_James(df_z1[1,], 30)
+par(mfrow=c(3,1))
+RP_adjust_James(df_z1[2,], 30) + title(main = "Stop 12")
+RP_adjust_James(df_z1[16,], 30) + title(main = "Stop 16")
+RP_adjust_James(df_z1[17,], 30) + title(main = "Stop 17")
+mtext("Peak Hour 1st Trip", side = 3, line = -1.5, outer = T)
 
 # for peak hour 1st trip
 par(mfrow=c(3,3))
